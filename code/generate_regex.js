@@ -109,9 +109,11 @@ function generate_regex() {
 
     let possible_damage_types = [];
     possible_damage_types.push("All");
-    possible_damage_types.push(damage_type);
+    if (damage_type !== "") {
+        possible_damage_types.push(damage_type);
+    }
 
-    add_elemental_damage_type(possible_damage_types, damage_type)
+    add_elemental_damage_type(possible_damage_types, damage_type);
 
     if (classes[0] !== ""){
        checked_skills.push(classes[0]);
