@@ -9,9 +9,9 @@ function get_checked_skills() {
     return checked_skills;
 }
 
-return_char = "\\n"
-any_char = "(.|" + return_char + ")*"
-level = any_char + "l: (9)(\\d)"
+return_char = "\\n";
+any_char = "(.|" + return_char + ")*";
+level = any_char + "l: (84|9\\d)";
 
 function add_player_messaging(output, skills, damage_types) {
     output.push({
