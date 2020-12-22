@@ -67,24 +67,21 @@ function create_div_for_skill(skill_table, skill, max_dependencies) {
     skill_table.appendChild(skill_row);
 }
 
-
-function fill_skills() {
-    for (let i = 1; i <= 2; i++) {
-        let class_name = document.getElementById("class_" + i).value;
-        let skills_class_div = document.getElementById("skills_class_" + i);
-        skills_class_div.innerHTML = "";
-        if (class_name !== "") {
-            let table = document.createElement("table");
-            table.style.fontSize = "12px";
-            skills_class_div.appendChild(table);
-            let skills = get_skills_for_class(class_name);
-            let max_dependencies = 1;
-            skills.forEach(skill => {
-                if (skill.skills.length > max_dependencies) {
-                    max_dependencies = skill.skills.length;
-                }
-            })
-            skills.forEach(skill => create_div_for_skill(table, skill, max_dependencies));
-        }
+function fill_skills(index){
+    let class_name = document.getElementById("class_" + index).value;
+    let skills_class_div = document.getElementById("skills_class_" + index);
+    skills_class_div.innerHTML = "";
+    if (class_name !== "") {
+        let table = document.createElement("table");
+        table.style.fontSize = "12px";
+        skills_class_div.appendChild(table);
+        let skills = get_skills_for_class(class_name);
+        let max_dependencies = 1;
+        skills.forEach(skill => {
+            if (skill.skills.length > max_dependencies) {
+                max_dependencies = skill.skills.length;
+            }
+        })
+        skills.forEach(skill => create_div_for_skill(table, skill, max_dependencies));
     }
 }

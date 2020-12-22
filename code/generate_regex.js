@@ -113,8 +113,12 @@ function generate_regex() {
 
     add_elemental_damage_type(possible_damage_types, damage_type)
 
-    checked_skills.push(classes[0]);
-    checked_skills.push(classes[1]);
+    if (classes[0] !== ""){
+       checked_skills.push(classes[0]);
+    }
+    if (classes[1] !== ""){
+       checked_skills.push(classes[1]);
+    }
 
     let formatted_skills = checked_skills.join("|");
     let formatted_damage_types = possible_damage_types.join("|");
