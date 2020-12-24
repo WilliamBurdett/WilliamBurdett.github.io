@@ -10,7 +10,7 @@ function get_checked_skills() {
 }
 
 function build_message(message){
-    return "/" + +message + "/"
+    return "/" + message + "/"
 }
 
 function get_ending_message(level) {
