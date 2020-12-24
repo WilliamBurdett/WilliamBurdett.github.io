@@ -95,30 +95,36 @@ function add_both_skills_message(output, classes) {
     });
 }
 
+function create_div_for_message(){
+    let div = document.createElement("div");
+    div.classList.add("inline");
+    return div;
+}
+
 function add_message(regex_div, message) {
     let div = document.createElement("div");
-    let name_div = document.createElement("div");
+    let name_div = create_div_for_message();
     name_div.classList.add("regex_messages");
     name_div.appendChild(document.createTextNode(message.message_type));
     div.appendChild(name_div);
 
-    let text_div = document.createElement("div");
+    let text_div = create_div_for_message();
     let text_area = document.createElement("textarea");
     text_area.textContent = message.message;
     text_div.appendChild(text_area);
     div.appendChild(text_div);
 
-    let copy_div = document.createElement("div");
+    let copy_div = create_div_for_message();
     let copy_button = document.createElement("input");
     copy_button.type = "button";
-    copy_button.addEventListener('click', function(){
+    copy_button.addEventListener("click", function(){
         text_area.select();
         document.execCommand("copy");
     });
     copy_div.appendChild(copy_button);
     div.appendChild(copy_div);
 
-    let link_div = document.createElement("div");
+    let link_div = create_div_for_message();
     let link = document.createElement("a");
     link.href = "https://www.grimtools.com/db/search?in_description=1&exact_match=0&query=" + message.message;
     link.target = "_blank";
