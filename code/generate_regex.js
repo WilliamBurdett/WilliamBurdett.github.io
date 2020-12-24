@@ -9,7 +9,7 @@ function get_checked_skills() {
     return checked_skills;
 }
 
-function build_message(message){
+function build_message(message) {
     return "/" + message + "/"
 }
 
@@ -21,18 +21,19 @@ function get_skills_message(skills) {
     return "(" + skills + ")" + default_return_char + default_any_char;
 }
 
-function get_damage_message(damage_types) {
-    return "% (" + damage_types + ") damage" + default_return_char + default_any_char;
+function get_damage_message(damage_types, include_percent) {
+    let message = "(" + damage_types + ") damage" + default_return_char + default_any_char;
+    if (include_percent){
+        message = "% " + message;
+    }
+    return message;
 }
 
 default_return_char = "\\n";
 default_any_char = "(.|" + default_return_char + ")*";
 level_84_or_higher = default_any_char + "l: (84|9\\d)";
 
-function add_player_messaging(output, skills, damage_types, level) {
-    let ending_message = get_ending_message(level);
-    let skills_message = get_skills_message(skills);
-    let damage_message = get_damage_message(damage_types);
+function add_player_messaging(output, ending_message, skills_message, damage_message) {
     output.push({
         "message_type": "skill and damage",
         "message": build_message(damage_message + skills_message + ending_message)
@@ -47,11 +48,8 @@ function add_player_messaging(output, skills, damage_types, level) {
     });
 }
 
-function add_pet_messaging(output, skills, damage_types, level) {
+function add_pet_messaging(output, ending_message, skills_message, damage_message) {
     let insert = "bonus to all pets" + default_any_char;
-    let ending_message = get_ending_message(level);
-    let skills_message = get_skills_message(skills);
-    let damage_message = get_damage_message(damage_types);
     output.push({
         "message_type": "skill and damage",
         "message": build_message(skills_message + insert + damage_message + ending_message)
@@ -70,14 +68,11 @@ function add_pet_messaging(output, skills, damage_types, level) {
     });
 }
 
-function add_retaliation_messaging(output, skills, damage_types, level){
+function add_retaliation_messaging(output, ending_message, skills_message, damage_message) {
     let insert = "retaliation" + default_any_char;
-    let ending_message = get_ending_message(level);
-    let skills_message = get_skills_message(skills);
-    let damage_message = get_damage_message(damage_types);
     output.push({
         "message_type": "skills and damage",
-        "message": build_message(insert + skills_message + + damage_message + ending_message)
+        "message": build_message(insert + skills_message + +damage_message + ending_message)
     });
     output.push({
         "message_type": "damage",
@@ -93,35 +88,49 @@ function add_retaliation_messaging(output, skills, damage_types, level){
     });
 }
 
-function add_both_skills_message(output, classes){
+function add_both_skills_message(output, classes) {
     output.push({
         "message_type": "get +skills to both classes",
         "message": "/((all skills" + default_return_char + ")|(" + classes[0] + default_any_char + classes[1] + ")|(" + classes[1] + default_any_char + classes[0] + "))" + level_84_or_higher + "/",
     });
 }
 
-function add_message(regex_div, message){
-    let div = document.createElement("div");
-    div.appendChild(document.createTextNode(message.message_type));
+function add_message(regex_name_div, regex_link_div, regex_text_div, message) {
+    let name_div = document.createElement("div");
+    name_div.classList.add("regex_messages");
+    name_div.appendChild(document.createTextNode(message.message_type));
+    regex_name_div.appendChild(name_div);
+
+    let text_div = document.createElement("div");
+    text_div.classList.add("regex_messages");
     let text_area = document.createElement("textarea");
-    text_area.textContent= message.message;
-    text_area.rows = 1;
-    text_area.columns = 100;
-    div.appendChild(text_area);
-    regex_div.appendChild(div);
+    text_area.textContent = message.message;
+    text_div.appendChild(text_area);
+    regex_text_div.appendChild(text_div);
+
+    let link_div = document.createElement("div");
+    link_div.classList.add("regex_messages");
+    let link = document.createElement("a");
+    link.href = "https://www.grimtools.com/db/search?in_description=1&exact_match=0&query=" + message.message;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    let link_text = document.createTextNode("Link to grim tools");
+    link.appendChild(link_text);
+    link_div.appendChild(link);
+    regex_link_div.appendChild(link_div);
 }
 
-function add_elemental_damage_type(possible_damage_types, damage_type){
+function add_elemental_damage_type(possible_damage_types, damage_type) {
     let add_elemental = false;
     let elemental_damage_types = ["Fire", "Cold", "Lightning"];
-    
+
     elemental_damage_types.forEach(elemental_damage_type => {
-        if (elemental_damage_type === damage_type){
+        if (elemental_damage_type === damage_type) {
             add_elemental = true;
         }
     })
 
-    if (add_elemental){
+    if (add_elemental) {
         possible_damage_types.push("Elemental");
     }
 }
@@ -134,13 +143,14 @@ function generate_regex() {
         document.getElementById("class_1").value,
         document.getElementById("class_2").value
     ]
-    let regex_div = document.getElementById("regex_div");
 
     let level_selection = document.getElementById("level_selection").value;
     let level = "";
-    if (level_selection === "84+"){
+    if (level_selection === "84+") {
         level = level_84_or_higher;
     }
+
+    let include_percent = document.getElementById("include_percent").value;
 
     let possible_damage_types = [];
     possible_damage_types.push("All");
@@ -150,11 +160,11 @@ function generate_regex() {
 
     add_elemental_damage_type(possible_damage_types, damage_type);
 
-    if (classes[0] !== ""){
-       checked_skills.push(classes[0]);
+    if (classes[0] !== "") {
+        checked_skills.push(classes[0]);
     }
-    if (classes[1] !== ""){
-       checked_skills.push(classes[1]);
+    if (classes[1] !== "") {
+        checked_skills.push(classes[1]);
     }
     checked_skills.push("all skills");
 
@@ -163,17 +173,23 @@ function generate_regex() {
 
     let output = []
 
+    let ending_message = get_ending_message(level);
+    let skills_message = get_skills_message(formatted_skills);
+    let damage_message = get_damage_message(formatted_damage_types, include_percent);
+
     if (source_type === "Player") {
-        add_player_messaging(output, formatted_skills, formatted_damage_types, level);
+        add_player_messaging(output, ending_message, skills_message, damage_message);
     } else if (source_type === "Pets") {
-        add_pet_messaging(output, formatted_skills, formatted_damage_types, level);
-    } else if (source_type === "Retaliation"){
-        add_retaliation_messaging(output, formatted_skills, formatted_damage_types, level);
+        add_pet_messaging(output, ending_message, skills_message, damage_message);
+    } else if (source_type === "Retaliation") {
+        add_retaliation_messaging(output, ending_message, skills_message, damage_message);
     }
 
     add_both_skills_message(output, classes)
 
-    regex_div.innerHTML = "";
+    let regex_name_div = document.getElementById("regex_name");
+    let regex_text_div = document.getElementById("regex_text");
+    let regex_link_div = document.getElementById("regex_link");
 
-    output.forEach(message => add_message(regex_div, message))
+    output.forEach(message => add_message(regex_name_div, regex_link_div, regex_text_div, message))
 }
