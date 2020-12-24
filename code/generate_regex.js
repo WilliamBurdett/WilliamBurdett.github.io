@@ -181,7 +181,7 @@ function generate_regex() {
     let include_percent = document.getElementById("include_percent").checked;
 
     let possible_damage_types = [];
-    possible_damage_types.push("All");
+    possible_damage_types.push("to All");
     if (damage_type !== "") {
         possible_damage_types.push(damage_type);
     }
