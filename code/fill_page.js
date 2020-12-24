@@ -15,6 +15,13 @@ function fill_values() {
     all_skills.forEach(obj => add_to_select(class_2, obj.class_name));
 }
 
+function uncheck_skills(){
+    let skills = document.getElementsByName("available_skills");
+    for (let i = 0; i < skills.length; i++) {
+        skills[i].checked = false;
+    }
+}
+
 function add_skill_to_available_list(skill_row, skill) {
     let checkbox_column = document.createElement("td");
     let checkbox = document.createElement("input");
