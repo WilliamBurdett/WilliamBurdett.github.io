@@ -178,7 +178,7 @@ function generate_regex() {
         level_message = level_84_or_higher;
     }
 
-    let include_percent = document.getElementById("include_percent").value;
+    let include_percent = document.getElementById("include_percent").checked;
 
     let possible_damage_types = [];
     possible_damage_types.push("All");
