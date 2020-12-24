@@ -127,6 +127,7 @@ function add_message(regex_div, message) {
     link.appendChild(link_text);
     link_div.appendChild(link);
     div.appendChild(link_div);
+    regex_div.appendChild(div);
 }
 
 function add_elemental_damage_type(possible_damage_types, damage_type) {
