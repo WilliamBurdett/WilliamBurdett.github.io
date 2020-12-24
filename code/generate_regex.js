@@ -138,7 +138,7 @@ function add_message(regex_div, message) {
 
     let link_div = create_div_for_message();
     let link = document.createElement("a");
-    link.href = "https://www.grimtools.com/db/search?in_description=1&exact_match=0&query=" + message.message;
+    link.href = "https://www.grimtools.com/db/search?query=" + message.message + "&in_description=1&exact_match=0";
     link.target = "_blank";
     link.rel = "noopener noreferrer";
     let link_text = document.createTextNode("Link to grim tools");
