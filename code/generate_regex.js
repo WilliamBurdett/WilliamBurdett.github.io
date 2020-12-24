@@ -10,10 +10,13 @@ function get_checked_skills() {
 }
 
 function build_message(message) {
-    return "/" + message + "/"
+    return "/" + message + "/";
 }
 
 function get_skills_message(skills) {
+    if (skills === ""){
+        return "";
+    }
     return "(" + skills + ")" + default_return_char + default_any_char;
 }
 
@@ -86,6 +89,9 @@ function add_retaliation_messaging(output, level_message, skills_message, damage
 
 function add_both_skills_message(output, classes, level_message) {
     let all_skills_message = "(all skills" + default_return_char + ")"
+    if (classes[0] === "" || classes[1] === ""){
+        return;
+    }
     let class_1_first = "(" + classes[0] + default_any_char + classes[1] + ")"
     let class_2_first = "(" + classes[1] + default_any_char + classes[0] + ")"
     let messages = [
