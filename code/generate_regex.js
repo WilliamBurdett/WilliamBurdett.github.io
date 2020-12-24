@@ -107,6 +107,7 @@ function create_div_for_message(){
 
 function add_message(regex_div, message) {
     let div = document.createElement("div");
+    div.classList.add("section");
     let name_div = create_div_for_message();
     name_div.classList.add("regex_messages");
     name_div.appendChild(document.createTextNode(message.message_type));
