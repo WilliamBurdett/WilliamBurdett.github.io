@@ -133,6 +133,7 @@ function add_message(regex_div, message) {
     copy_button.addEventListener("click", function(){
         text_area.select();
         document.execCommand("copy");
+        window.getSelection().removeAllRanges();
     });
     copy_button.value = "Copy Text";
     copy_div.appendChild(copy_button);
