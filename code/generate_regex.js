@@ -121,6 +121,7 @@ function add_message(regex_div, message) {
         text_area.select();
         document.execCommand("copy");
     });
+    copy_button.value = "Copy Text";
     copy_div.appendChild(copy_button);
     div.appendChild(copy_div);
 
