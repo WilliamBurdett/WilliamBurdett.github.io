@@ -208,6 +208,6 @@ function generate_regex() {
     add_both_skills_message(output, classes, level_message)
 
     let regex_div = document.getElementById("regex_output");
-
+    regex_div.innerHTML = "";
     output.forEach(message => add_message(regex_div, message))
 }
