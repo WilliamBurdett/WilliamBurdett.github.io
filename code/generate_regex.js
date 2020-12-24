@@ -25,7 +25,7 @@ function get_damage_message(damage_types, damage_include_type) {
     if (damage_include_type === "only_percent_values"){
         message = "% " + message;
     } else if (damage_include_type === "only_raw_values"){
-        message = "[^%]" + message;
+        message = "\d " + message;
     }
     return message;
 }
