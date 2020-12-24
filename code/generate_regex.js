@@ -13,10 +13,6 @@ function build_message(message) {
     return "/" + message + "/"
 }
 
-function get_ending_message(level) {
-    return default_return_char + level + "/";
-}
-
 function get_skills_message(skills) {
     return "(" + skills + ")" + default_return_char + default_any_char;
 }
@@ -33,65 +29,73 @@ default_return_char = "\\n";
 default_any_char = "(.|" + default_return_char + ")*";
 level_84_or_higher = default_any_char + "l: (84|9\\d)";
 
-function add_player_messaging(output, ending_message, skills_message, damage_message) {
+function add_player_messaging(output, level_message, skills_message, damage_message) {
     output.push({
         "message_type": "skill and damage",
-        "message": build_message(damage_message + skills_message + ending_message)
+        "message": build_message(damage_message + skills_message + level_message)
     });
     output.push({
         "message_type": "skills",
-        "message": build_message(skills_message + ending_message)
+        "message": build_message(skills_message + level_message)
     });
     output.push({
         "message_type": "damage",
-        "message": build_message(damage_message + ending_message)
+        "message": build_message(damage_message + level_message)
     });
 }
 
-function add_pet_messaging(output, ending_message, skills_message, damage_message) {
+function add_pet_messaging(output, level_message, skills_message, damage_message) {
     let insert = "bonus to all pets" + default_any_char;
     output.push({
         "message_type": "skill and damage",
-        "message": build_message(skills_message + insert + damage_message + ending_message)
+        "message": build_message(skills_message + insert + damage_message + level_message)
     });
     output.push({
         "message_type": "skills",
-        "message": build_message(skills_message + insert + ending_message)
+        "message": build_message(skills_message + insert + level_message)
     });
     output.push({
         "message_type": "damage",
-        "message": build_message(insert + damage_message + ending_message)
+        "message": build_message(insert + damage_message + level_message)
     });
     output.push({
         "message_type": "any pets",
-        "message": build_message(insert + ending_message)
+        "message": build_message(insert + level_message)
     });
 }
 
-function add_retaliation_messaging(output, ending_message, skills_message, damage_message) {
+function add_retaliation_messaging(output, level_message, skills_message, damage_message) {
     let insert = "retaliation" + default_any_char;
     output.push({
         "message_type": "skills and damage",
-        "message": build_message(insert + skills_message + +damage_message + ending_message)
+        "message": build_message(insert + skills_message + damage_message + level_message)
     });
     output.push({
         "message_type": "damage",
-        "message": build_message(insert + damage_message + ending_message)
+        "message": build_message(insert + damage_message + level_message)
     });
     output.push({
         "message_type": "skills",
-        "message": build_message(insert + skills_message + ending_message)
+        "message": build_message(insert + skills_message + level_message)
     });
     output.push({
         "message_type": "any retaliation",
-        "message": build_message(insert + ending_message)
+        "message": build_message(insert + level_message)
     });
 }
 
-function add_both_skills_message(output, classes) {
+function add_both_skills_message(output, classes, level_message) {
+    let all_skills_message = "(all skills" + default_return_char + ")"
+    let class_1_first = "(" + classes[0] + default_any_char + classes[1] + ")"
+    let class_2_first = "(" + classes[1] + default_any_char + classes[0] + ")"
+    let messages = [
+        all_skills_message,
+        class_1_first,
+        class_2_first
+    ];
     output.push({
         "message_type": "get +skills to both classes",
-        "message": "/((all skills" + default_return_char + ")|(" + classes[0] + default_any_char + classes[1] + ")|(" + classes[1] + default_any_char + classes[0] + "))" + level_84_or_higher + "/",
+        "message": build_message("(" + messages.join("|") + ")" + level_message)
     });
 }
 
@@ -162,9 +166,9 @@ function generate_regex() {
     ]
 
     let level_selection = document.getElementById("level_selection").value;
-    let level = "";
+    let level_message = "";
     if (level_selection === "84+") {
-        level = level_84_or_higher;
+        level_message = level_84_or_higher;
     }
 
     let include_percent = document.getElementById("include_percent").value;
@@ -190,19 +194,18 @@ function generate_regex() {
 
     let output = []
 
-    let ending_message = get_ending_message(level);
     let skills_message = get_skills_message(formatted_skills);
     let damage_message = get_damage_message(formatted_damage_types, include_percent);
 
     if (source_type === "Player") {
-        add_player_messaging(output, ending_message, skills_message, damage_message);
+        add_player_messaging(output, level_message, skills_message, damage_message);
     } else if (source_type === "Pets") {
-        add_pet_messaging(output, ending_message, skills_message, damage_message);
+        add_pet_messaging(output, level_message, skills_message, damage_message);
     } else if (source_type === "Retaliation") {
-        add_retaliation_messaging(output, ending_message, skills_message, damage_message);
+        add_retaliation_messaging(output, level_message, skills_message, damage_message);
     }
 
-    add_both_skills_message(output, classes)
+    add_both_skills_message(output, classes, level_message)
 
     let regex_div = document.getElementById("regex_output");
 
