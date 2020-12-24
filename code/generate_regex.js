@@ -95,21 +95,30 @@ function add_both_skills_message(output, classes) {
     });
 }
 
-function add_message(regex_name_div, regex_link_div, regex_text_div, message) {
+function add_message(regex_div, message) {
+    let div = document.createElement("div");
     let name_div = document.createElement("div");
     name_div.classList.add("regex_messages");
     name_div.appendChild(document.createTextNode(message.message_type));
-    regex_name_div.appendChild(name_div);
+    div.appendChild(name_div);
 
     let text_div = document.createElement("div");
-    text_div.classList.add("regex_messages");
     let text_area = document.createElement("textarea");
     text_area.textContent = message.message;
     text_div.appendChild(text_area);
-    regex_text_div.appendChild(text_div);
+    div.appendChild(text_div);
+
+    let copy_div = document.createElement("div");
+    let copy_button = document.createElement("input");
+    copy_button.type = "button";
+    copy_button.addEventListener('click', function(){
+        text_area.select();
+        document.execCommand("copy");
+    });
+    copy_div.appendChild(copy_button);
+    div.appendChild(copy_div);
 
     let link_div = document.createElement("div");
-    link_div.classList.add("regex_messages");
     let link = document.createElement("a");
     link.href = "https://www.grimtools.com/db/search?in_description=1&exact_match=0&query=" + message.message;
     link.target = "_blank";
@@ -117,7 +126,7 @@ function add_message(regex_name_div, regex_link_div, regex_text_div, message) {
     let link_text = document.createTextNode("Link to grim tools");
     link.appendChild(link_text);
     link_div.appendChild(link);
-    regex_link_div.appendChild(link_div);
+    div.appendChild(link_div);
 }
 
 function add_elemental_damage_type(possible_damage_types, damage_type) {
@@ -187,9 +196,7 @@ function generate_regex() {
 
     add_both_skills_message(output, classes)
 
-    let regex_name_div = document.getElementById("regex_name");
-    let regex_text_div = document.getElementById("regex_text");
-    let regex_link_div = document.getElementById("regex_link");
+    let regex_div = document.getElementById("regex_div");
 
-    output.forEach(message => add_message(regex_name_div, regex_link_div, regex_text_div, message))
+    output.forEach(message => add_message(regex_div, message))
 }
