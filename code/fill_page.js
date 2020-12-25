@@ -6,7 +6,7 @@ function add_to_select(select, value) {
 }
 
 function setup_auto_regex_generation(){
-    let ids = ["class_1", "class_2", "damage_type", "level_selection", "include_percent"];
+    let ids = ["class_1", "class_2", "damage_type", "level_selection", "damage_include_type"];
     ids.forEach(id => {
        let obj = document.getElementById(id);
        obj.addEventListener("change", function (){
