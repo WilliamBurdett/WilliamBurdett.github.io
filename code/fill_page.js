@@ -6,19 +6,20 @@ function add_to_select(select, value) {
 }
 
 function setup_auto_regex_generation(){
+    let auto_generate_regex = document.getElementById("auto_generate_regex");
     let obj_ids = [
-        "class_1",
-        "class_2",
-        "damage_type",
-        "level_selection",
-        "damage_include_type",
-        "source_type",
-        "uncheck_skills"
+        {"id": "class_1", "type": "change"},
+        {"id": "class_2", "type": "change"},
+        {"id": "damage_type", "type": "change"},
+        {"id": "level_selection", "type": "change"},
+        {"id": "damage_include_type", "type": "change"},
+        {"id": "source_type", "type": "change"},
+        {"id": "uncheck_skills", "type": "click"},
     ];
-    obj_ids.forEach(id => {
-        if (document.getElementById("auto_generate_regex").checked   === true){
-            let obj = document.getElementById(id);
-            obj.addEventListener("change", function (){
+    obj_ids.forEach(config => {
+        if (auto_generate_regex.checked   === true){
+            let obj = document.getElementById(config.id);
+            obj.addEventListener(config.type, function (){
                generate_regex();
             });
         }
