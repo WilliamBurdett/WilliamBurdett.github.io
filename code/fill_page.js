@@ -16,7 +16,7 @@ function setup_auto_regex_generation(){
         "uncheck_skills"
     ];
     obj_ids.forEach(id => {
-        if (document.getElementById("auto_generate_regex").value === true){
+        if (document.getElementById("auto_generate_regex").checked   === true){
             let obj = document.getElementById(id);
             obj.addEventListener("change", function (){
                generate_regex();
