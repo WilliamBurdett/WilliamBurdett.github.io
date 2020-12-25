@@ -5,14 +5,28 @@ function add_to_select(select, value) {
     select.add(option);
 }
 
+function setup_auto_regex_generation(){
+    let ids = ["class_1", "class_2", "damage_type", "level_selection", "include_percent"];
+    ids.forEach(id => function(){
+       document.getElementById(id).addEventListener("change", function (){
+           generate_regex();
+       });
+    });
+}
+
+function setup_class_select(class_select_id){
+    let class_select = document.getElementById(class_select_id);
+    all_skills.forEach(obj => add_to_select(class_select, obj.class_name));
+}
+
 function fill_values() {
     let source_damage_type = document.getElementById("damage_type");
     all_damage_types.forEach(damage_type => add_to_select(source_damage_type, damage_type.name));
 
-    let class_1 = document.getElementById("class_1");
-    let class_2 = document.getElementById("class_2");
-    all_skills.forEach(obj => add_to_select(class_1, obj.class_name));
-    all_skills.forEach(obj => add_to_select(class_2, obj.class_name));
+    setup_class_select("class_1");
+    setup_class_select("class_2");
+
+    setup_auto_regex_generation();
 }
 
 function uncheck_skills(){
@@ -29,10 +43,9 @@ function add_skill_to_available_list(skill_row, skill) {
     checkbox.id = skill.name;
     checkbox.name = "available_skills";
     checkbox.checked = skill.default;
-
-    checkbox_column.style.borderLeft = "1px";
-    checkbox_column.style.borderTop = "1px";
-    checkbox_column.style.borderBottom = "1px";
+    checkbox.addEventListener("change", function (){
+        generate_regex();
+    });
 
     checkbox_column.appendChild(checkbox);
     skill_row.appendChild(checkbox_column);
@@ -84,7 +97,7 @@ function fill_skills(index){
         skills_class_div.appendChild(table);
         let skills = get_skills_for_class(class_name);
         let max_dependencies = 1;
-        skills.forEach(skill => {
+        skills.forEach(skill => function(){
             if (skill.skills.length > max_dependencies) {
                 max_dependencies = skill.skills.length;
             }

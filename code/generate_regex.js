@@ -152,7 +152,7 @@ function add_elemental_damage_type(possible_damage_types, damage_type) {
     let add_elemental = false;
     let elemental_damage_types = ["Fire", "Cold", "Lightning"];
 
-    elemental_damage_types.forEach(elemental_damage_type => {
+    elemental_damage_types.forEach(elemental_damage_type => function(){
         if (elemental_damage_type === damage_type) {
             add_elemental = true;
         }
