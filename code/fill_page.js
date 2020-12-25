@@ -16,10 +16,12 @@ function setup_auto_regex_generation(){
         "uncheck_skills"
     ];
     obj_ids.forEach(id => {
-       let obj = document.getElementById(id);
-       obj.addEventListener("change", function (){
-           generate_regex();
-        });
+        if (document.getElementById("auto_generate_regex").value === true){
+            let obj = document.getElementById(id);
+            obj.addEventListener("change", function (){
+               generate_regex();
+            });
+        }
     });
 }
 
