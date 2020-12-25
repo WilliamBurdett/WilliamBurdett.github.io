@@ -20,10 +20,12 @@ function get_skills_message(skills) {
     return "(" + skills + ")" + default_return_char + default_any_char;
 }
 
-function get_damage_message(damage_types, include_percent) {
+function get_damage_message(damage_types, damage_include_type) {
     let message = "(" + damage_types + ") damage" + default_return_char + default_any_char;
-    if (include_percent){
+    if (damage_include_type === "only_percent_values"){
         message = "% " + message;
+    } else if (damage_include_type === "only_raw_values"){
+        message = "\\d " + message;
     }
     return message;
 }
@@ -131,6 +133,7 @@ function add_message(regex_div, message) {
     copy_button.addEventListener("click", function(){
         text_area.select();
         document.execCommand("copy");
+        window.getSelection().removeAllRanges();
     });
     copy_button.value = "Copy Text";
     copy_div.appendChild(copy_button);
@@ -178,10 +181,10 @@ function generate_regex() {
         level_message = level_84_or_higher;
     }
 
-    let include_percent = document.getElementById("include_percent").checked;
+    let damage_include_type = document.getElementById("damage_include_type").value;
 
     let possible_damage_types = [];
-    possible_damage_types.push("All");
+    possible_damage_types.push("to All");
     if (damage_type !== "") {
         possible_damage_types.push(damage_type);
     }
@@ -202,7 +205,7 @@ function generate_regex() {
     let output = []
 
     let skills_message = get_skills_message(formatted_skills);
-    let damage_message = get_damage_message(formatted_damage_types, include_percent);
+    let damage_message = get_damage_message(formatted_damage_types, damage_include_type);
 
     if (source_type === "Player") {
         add_player_messaging(output, level_message, skills_message, damage_message);
