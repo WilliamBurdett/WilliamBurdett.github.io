@@ -14,7 +14,7 @@ function build_message(message) {
 }
 
 function get_skills_message(skills) {
-    if (skills === ""){
+    if (skills === "") {
         return "";
     }
     return "(" + skills + ")" + default_return_char + default_any_char;
@@ -22,9 +22,9 @@ function get_skills_message(skills) {
 
 function get_damage_message(damage_types, damage_include_type) {
     let message = "(" + damage_types + ") damage" + default_return_char + default_any_char;
-    if (damage_include_type === "only_percent_values"){
+    if (damage_include_type === "only_percent_values") {
         message = "% " + message;
-    } else if (damage_include_type === "only_raw_values"){
+    } else if (damage_include_type === "only_raw_values") {
         message = "\\d " + message;
     }
     return message;
@@ -91,7 +91,7 @@ function add_retaliation_messaging(output, level_message, skills_message, damage
 
 function add_both_skills_message(output, classes, level_message) {
     let all_skills_message = "(all skills" + default_return_char + ")"
-    if (classes[0] === "" || classes[1] === ""){
+    if (classes[0] === "" || classes[1] === "") {
         return;
     }
     let class_1_first = "(" + classes[0] + default_any_char + classes[1] + ")"
@@ -107,7 +107,7 @@ function add_both_skills_message(output, classes, level_message) {
     });
 }
 
-function create_div_for_message(){
+function create_div_for_message() {
     let div = document.createElement("div");
     div.classList.add("inline");
     return div;
@@ -130,7 +130,7 @@ function add_message(regex_div, message) {
     let copy_div = create_div_for_message();
     let copy_button = document.createElement("input");
     copy_button.type = "button";
-    copy_button.addEventListener("click", function(){
+    copy_button.addEventListener("click", function () {
         text_area.select();
         document.execCommand("copy");
         window.getSelection().removeAllRanges();
@@ -155,11 +155,11 @@ function add_elemental_damage_type(possible_damage_types, damage_type) {
     let add_elemental = false;
     let elemental_damage_types = ["Fire", "Cold", "Lightning"];
 
-    elemental_damage_types.forEach(elemental_damage_type => function(){
-        if (elemental_damage_type === damage_type) {
+    for (let i = 0; i < elemental_damage_types.length; i++) {
+        if (elemental_damage_types[i] === damage_type) {
             add_elemental = true;
         }
-    })
+    }
 
     if (add_elemental) {
         possible_damage_types.push("Elemental");
