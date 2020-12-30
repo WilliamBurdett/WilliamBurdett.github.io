@@ -68,6 +68,7 @@
         img.src = "images/" + skill.name.replace(/ /g, "_") + ".png";
         img.addEventListener("click", function (){
             checkbox.checked = checkbox.checked !== true;
+            generate_regex();
         });
         name_column.appendChild(img);
 
