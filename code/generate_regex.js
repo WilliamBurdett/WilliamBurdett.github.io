@@ -192,10 +192,10 @@ function generate_regex() {
     add_elemental_damage_type(possible_damage_types, damage_type);
 
     if (classes[0] !== "") {
-        checked_skills.push(classes[0]);
+        checked_skills.push("all skills in" + classes[0]);
     }
     if (classes[1] !== "") {
-        checked_skills.push(classes[1]);
+        checked_skills.push("all skills in" + classes[1]);
     }
     checked_skills.push("all skills");
 
