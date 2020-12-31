@@ -17,7 +17,7 @@ function get_skills_message(skills) {
     if (skills === "") {
         return "";
     }
-    return "(" + skills + ")" + default_return_char + default_any_char;
+    return "to (" + skills + ")" + default_return_char + default_any_char;
 }
 
 function get_damage_message(damage_types, damage_include_type) {
