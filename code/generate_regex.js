@@ -21,7 +21,7 @@ function get_skills_message(skills, bonus_to_skills_type) {
     if (bonus_to_skills_type === "only_modifiers") {
         output = "[A-Za-z]" + output;
     } else if (bonus_to_skills_type === "only_raw_values"){
-        output = "\d"  + output;
+        output = "\\d"  + output;
     }
     return output;
 }
