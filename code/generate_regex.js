@@ -13,11 +13,17 @@ function build_message(message) {
     return "/" + message + "/";
 }
 
-function get_skills_message(skills) {
+function get_skills_message(skills, bonus_to_skills_type) {
     if (skills === "") {
         return "";
     }
-    return "to (" + skills + ")" + default_return_char + default_any_char;
+    let output = " to (" + skills + ")" + default_return_char + default_any_char;
+    if (bonus_to_skills_type === "only_modifiers") {
+        output = "[A-Za-z]" + output;
+    } else if (bonus_to_skills_type === "only_raw_values"){
+        output = "\d"  + output;
+    }
+    return output;
 }
 
 function get_damage_message(damage_types, damage_include_type) {
@@ -182,6 +188,7 @@ function generate_regex() {
     }
 
     let damage_include_type = document.getElementById("damage_include_type").value;
+    let bonus_to_skills_type = document.getElementById("bonus_to_skills_type").value;
 
     let possible_damage_types = [];
     possible_damage_types.push("to All");
@@ -204,7 +211,7 @@ function generate_regex() {
 
     let output = []
 
-    let skills_message = get_skills_message(formatted_skills);
+    let skills_message = get_skills_message(formatted_skills, bonus_to_skills_type);
     let damage_message = get_damage_message(formatted_damage_types, damage_include_type);
 
     if (source_type === "Player") {

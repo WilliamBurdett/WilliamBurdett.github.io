@@ -60,25 +60,6 @@ function get_attributes() {
         }
     }
 
-    function to_string(array_of_obj) {
-        let output = "[\n"
-        array_of_obj.forEach(obj => {
-            output += "\t{\"name\": \"" + obj.name + "\", \"value\": \"" + obj.value + "\"},\n";
-        });
-        output += "]"
-        return output;
-    }
-
-    async function copy_to_clipboard(output) {
-        await navigator.clipboard.writeText(output)
-            .then(() => {
-                alert("Text copied to clipboard");
-            })
-            .catch(err => {
-                alert("Error in copying text: " + err);
-            });
-    }
-
     let stats = [];
     let divs = document.getElementsByTagName("div");
     let first_div;
@@ -115,9 +96,11 @@ function get_attributes() {
         "oa",
         "da",
         "healthRegen",
-        "ar"
+        "ar",
+        "critDamage"
     ];
     stats.forEach(stat => {
+        console.log(stat.name + ": " + stat.value);
         if (res_names.includes(stat.name)) {
             if (stat.value > max_res) {
                 max_res = stat.value;
@@ -147,6 +130,6 @@ function get_attributes() {
     // console.log(to_string(stats));
     // alert(to_string(output));
     alert(output_text);
-    alert(get(output, "oa") + "\t" + get(output, "da"));
+    alert(get(output, "oa") + "\t" + get(output, "da") + "\t" + get(output, "critDamage"));
 }
 setTimeout(() => get_attributes(), 1000);
