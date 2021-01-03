@@ -15,6 +15,7 @@ function setup_auto_regex_generation(){
         {"id": "damage_include_type", "type": "change"},
         {"id": "source_type", "type": "change"},
         {"id": "uncheck_skills", "type": "click"},
+        {"id": "regex_messages", "type": "change"},
     ];
     obj_ids.forEach(config => {
         if (auto_generate_regex.checked   === true){
