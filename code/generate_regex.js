@@ -191,7 +191,10 @@ function generate_regex() {
     let bonus_to_skills_type = document.getElementById("bonus_to_skills_type").value;
 
     let possible_damage_types = [];
-    possible_damage_types.push("to All");
+    let include_all_damage = document.getElementById("include_all_damage").value;
+    if (include_all_damage === "yes") {
+        possible_damage_types.push("to All");
+    }
     if (damage_type !== "") {
         possible_damage_types.push(damage_type);
     }
