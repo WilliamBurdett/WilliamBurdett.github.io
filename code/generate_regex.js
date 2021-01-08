@@ -199,7 +199,10 @@ function generate_regex() {
         possible_damage_types.push(damage_type);
     }
 
-    add_elemental_damage_type(possible_damage_types, damage_type);
+    let include_elemental_damage = document.getElementById("include_elemental_damage").value;
+    if (include_elemental_damage === "yes") {
+        add_elemental_damage_type(possible_damage_types, damage_type);
+    }
 
     if (classes[0] !== "") {
         checked_skills.push("all skills in " + classes[0]);
