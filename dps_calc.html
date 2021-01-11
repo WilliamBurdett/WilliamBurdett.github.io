@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/styling.css">
+    <meta charset="UTF-8">
+    <title>Agathos's Grim Dawn DPS Calc</title>
+</head>
+<body>
+<div id="attributes">
+    <div>
+        Base Attributes
+        <div>
+            <div class="attribute inline">% Attack Speed:</div>
+            <div class="inline"><input type="number" id="global_attack_speed"></div>
+        </div>
+        <div>
+            <div class="attribute inline">% Cast Speed:</div>
+            <div class="inline"><input type="number" id="global_cast_speed"></div>
+        </div>
+        <div>
+            <div class="attribute inline">% Cooldown Reduction:</div>
+            <div class="inline"><input type="number" id="global_cooldown"></div>
+        </div>
+    </div>
+</div>
+<div>
+    <input type="button" id="add_flat_damage" value="Add Flat Damage Source">
+    <div id="flat_damages">
+    </div>
+</div>
+<div>
+    <input type="button" id="add_skills" value="Add Skill">
+    <div id="skills">
+    </div>
+</div>
+<div id="dps_output" class="hide_section">
+
+</div>
+<script type="text/javascript" src="code/utils.js"></script>
+<script type="text/javascript" src="code/dps_calc.js"></script>
+<footer>
+    <script type="text/javascript">
+        add_flat_global_damage();
+        add_skill();
+        calc_dps();
+    </script>
+</footer>
+</body>
+</html>

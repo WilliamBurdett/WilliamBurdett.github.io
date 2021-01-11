@@ -1,0 +1,21 @@
+.hide_section {
+    display: none;
+}
+.inline {
+    display: inline-block;
+}
+.attribute {
+    width: 200px;
+    text-align: right;
+}
+.section {
+    padding: 10px;
+}
+
+.section:nth-child(even) {
+    background-color: whitesmoke;
+}
+
+.section:nth-child(odd) {
+    background-color: lightgray;
+}

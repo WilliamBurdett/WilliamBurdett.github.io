@@ -1,10 +1,3 @@
-function add_to_select(select, value) {
-    let option = document.createElement("option");
-    option.text = value;
-    option.value = value;
-    select.add(option);
-}
-
 function setup_auto_regex_generation(){
     let auto_generate_regex = document.getElementById("auto_generate_regex");
     let obj_ids = [
