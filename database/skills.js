@@ -770,11 +770,6 @@ const all_skills = [
                 "default": false
             },
             {
-                "name": "Reap Spirit",
-                "skills": [],
-                "default": false
-            },
-            {
                 "name": "Summon Blight Fiend",
                 "skills": [
                     {"name": "Rotting Fumes", "default": false},
