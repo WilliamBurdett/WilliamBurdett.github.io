@@ -70,10 +70,12 @@ function add_flat_damage_div(damages_list_div, flat_damage) {
 
     let damage_range_div = document.createElement("div");
     let min_damage = document.createElement("input");
+    min_damage.classList.add("number_input");
     min_damage.addEventListener("change", function () {
         flat_damage.min_damage = min_damage.value;
     });
     let max_damage = document.createElement("input");
+    max_damage.classList.add("number_input");
     max_damage.addEventListener("change", function () {
         flat_damage.max_damage = max_damage.value;
     });
@@ -102,6 +104,7 @@ function populate_type_option_div(type_option_div, skill_type, skill) {
         percent_div.classList.add("attribute");
         percent_div.appendChild(document.createTextNode("% Chance"));
         let percent_input = document.createElement("input");
+        percent_input.classList.add("number_input");
         percent_input.type = "number";
         percent_input.addEventListener("change", function () {
             skill.trigger_option_percent = percent_input.value;
@@ -112,6 +115,7 @@ function populate_type_option_div(type_option_div, skill_type, skill) {
         type_option_div.appendChild(document.createTextNode("Cooldown"));
         let cooldown_input = document.createElement("input");
         cooldown_input.type = "number";
+        cooldown_input.classList.add("number_input");
         cooldown_input.addEventListener("change", function () {
             skill.cooldown_option_length = cooldown_input.value;
         });
@@ -131,8 +135,11 @@ function add_skill() {
     new_skill_div.classList.add("section");
     skills_div.appendChild(new_skill_div);
     let damages_div = document.createElement("div");
+    new_skill_div.appendChild(damages_div);
     damages_div.appendChild(document.createTextNode("Flat Damages"));
     let add_damage_button = document.createElement("input");
+    add_damage_button.type = "button";
+    add_damage_button.value = "Add damage type";
     damages_div.appendChild(add_damage_button);
 
     let type_option_div = document.createElement("div");
@@ -147,6 +154,9 @@ function add_skill() {
         populate_type_option_div(type_option_div, type_select.value);
     });
 
+    new_skill_div.appendChild(type_select);
+    new_skill_div.appendChild(type_option_div);
+
     let damages_list_div = document.createElement("div");
     damages_div.appendChild(damages_list_div);
     add_damage_button.type = "button";
@@ -156,6 +166,8 @@ function add_skill() {
         skill.damages.push(flat_damage);
         add_flat_damage_div(damages_list_div, flat_damage);
     });
+
+    new_skill_div.appendChild(damages_div)
     // Flat damages
     // min, max, damage type
     // weapon damage
@@ -169,6 +181,6 @@ function calc_dps() {
 
 function add_flat_global_damage() {
     let flat_damages_div = document.getElementById("flat_damages");
-    let new_damage_div = document.createElement("div");
-    new_damage_div.classList.add("section");
+
+    add_flat_damage_div(flat_damages_div, )
 }

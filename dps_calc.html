@@ -11,15 +11,15 @@
         Base Attributes
         <div>
             <div class="attribute inline">% Attack Speed:</div>
-            <div class="inline"><input type="number" id="global_attack_speed"></div>
+            <div class="inline"><input class="number_input" type="number" id="global_attack_speed"></div>
         </div>
         <div>
             <div class="attribute inline">% Cast Speed:</div>
-            <div class="inline"><input type="number" id="global_cast_speed"></div>
+            <div class="inline"><input class="number_input" type="number" id="global_cast_speed"></div>
         </div>
         <div>
             <div class="attribute inline">% Cooldown Reduction:</div>
-            <div class="inline"><input type="number" id="global_cooldown"></div>
+            <div class="inline"><input class="number_input" type="number" id="global_cooldown"></div>
         </div>
     </div>
 </div>
@@ -36,10 +36,13 @@
 <div id="dps_output" class="hide_section">
 
 </div>
+<script type="text/javascript" src="database/skills.js"></script>
+<script type="text/javascript" src="database/damage_types.js"></script>
 <script type="text/javascript" src="code/utils.js"></script>
 <script type="text/javascript" src="code/dps_calc.js"></script>
 <footer>
     <script type="text/javascript">
+        add_listener_to_inputs();
         add_flat_global_damage();
         add_skill();
         calc_dps();
