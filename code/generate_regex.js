@@ -39,6 +39,7 @@ function get_damage_message(damage_types, damage_include_type) {
 default_return_char = "\\n";
 default_any_char = "(.|" + default_return_char + ")*";
 level_84_or_higher = default_any_char + "l: (84|9\\d)";
+low_levels = default_any_char + "l:( | 1| 2| 3)\\d" + default_return_char;
 
 function add_player_messaging(output, level_message, skills_message, damage_message) {
     output.push({
@@ -185,6 +186,8 @@ function generate_regex() {
     let level_message = "";
     if (level_selection === "84+") {
         level_message = level_84_or_higher;
+    } else if (level_selection === "low_levels"){
+        level_message = low_levels;
     }
 
     let damage_include_type = document.getElementById("damage_include_type").value;
