@@ -16,17 +16,51 @@ function upsert(array, name, value) {
     }
 }
 
-function get(array, name){
-    console.log(name);
-    for(let i=0;i<array.length;i++) {
-        if (array[i].name === name){
+function get(array, name) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].name === name) {
             return array[i].value;
         }
     }
 }
 
+function check_less_than_three(value) {
+    if (value < 3) {
+        return "";
+    } else {
+        return value;
+    }
+}
+
+function getChildElementsByTag(node, tag_name){
+    let children = node.children;
+    let elements = []
+    for (let i=0;i<children.length;i++){
+        let child = children[i];
+        if (child.children.length> 0){
+            elements = elements.concat(getChildElementsByTag(child, tag_name))
+        }
+    }
+    if (node.tagName === tag_name){
+        elements.push(node);
+    }
+    return elements
+}
+
+
+function getElementsByTag(tag_name) {
+    tag_name = tag_name.toUpperCase();
+    let elements = [];
+
+    let node = document.getElementsByTagName("body")[0];
+
+    elements = elements.concat(getChildElementsByTag(node, tag_name));
+
+    return elements;
+}
+
 function get_attributes() {
-    function parse_value(value){
+    function parse_value(value) {
         let parsed_value;
         parsed_value = value.replace("+", "");
         parsed_value = parsed_value.replace("%", "");
@@ -42,14 +76,14 @@ function get_attributes() {
                 let obj = {"name": stat};
                 if (div.classList.contains("text")) {
                     // Resistance
-                    obj.value = div.innerText;
+                    obj.value = div.innerHTML;
                 } else {
                     // Default attribute
                     let children = div.children;
                     for (let j = 0; j < children.length; j++) {
                         let child = children[j];
                         if (child.classList.contains("value")) {
-                            obj.value = child.innerText;
+                            obj.value = child.innerHTML;
                         }
                     }
                 }
@@ -61,21 +95,11 @@ function get_attributes() {
     }
 
     let stats = [];
-    let divs = document.getElementsByTagName("div");
-    let first_div;
-    for (let i = 0; i < divs.length; i++) {
-        let div = divs[i];
-        let tab = div.getAttribute("tab");
-        if (tab !== null) {
-            if (!first_div){
-                first_div = div;
-            }
-            div.click();
-            get_stats(divs, stats);
-        }
-    }
-    first_div.click();
-    let output = []
+    let divs = getElementsByTag("div");
+    get_stats(divs, stats);
+
+
+    let derived_stats = [];
     let max_res = 0;
     let min_res = 100;
     let max_damage_modifier = 0;
@@ -91,16 +115,7 @@ function get_attributes() {
         "resStun",
         "resChaos"
     ];
-    let needed_stats = [
-        "health",
-        "oa",
-        "da",
-        "healthRegen",
-        "ar",
-        "critDamage"
-    ];
     stats.forEach(stat => {
-        console.log(stat.name + ": " + stat.value);
         if (res_names.includes(stat.name)) {
             if (stat.value > max_res) {
                 max_res = stat.value;
@@ -109,27 +124,30 @@ function get_attributes() {
                 min_res = stat.value;
             }
         }
-        if (needed_stats.includes(stat.name)) {
-            upsert(output, stat.name, stat.value);
-        }
         if (stat.name.startsWith("damage") && stat.name.endsWith("Modifier")) {
             if (stat.value > max_damage_modifier) {
                 max_damage_modifier = stat.value;
             }
         }
     })
-    upsert(output, "max_res", max_res);
-    upsert(output, "min_res", min_res);
-    upsert(output, "max_damage_modifier", max_damage_modifier);
+    upsert(derived_stats, "max_res", max_res);
+    upsert(derived_stats, "min_res", min_res);
+    upsert(derived_stats, "max_damage_modifier", max_damage_modifier);
 
-    let output_text = get(output, "max_damage_modifier") + "\t" +
-        get(output, "health") + "\t" +
-        get(output, "healthRegen") + "\t" +
-        get(output, "ar");
+    let output_text = get(derived_stats, "max_damage_modifier") + "\t" +
+        get(stats, "health") + "\t" +
+        get(stats, "healthRegen") + "\t" +
+        get(stats, "ar") + "\t";
 
-    // console.log(to_string(stats));
-    // alert(to_string(output));
+    output_text += 70 + "\t" +
+        check_less_than_three(get(stats, "blockChance")) + "\t" +
+        check_less_than_three(get(stats, "blockRecovery")) + "\t" +
+        check_less_than_three(get(stats, "dodgeChance")) + "\t" +
+        check_less_than_three(get(stats, "deflectChance")) + "\t";
+
+    output_text += get(stats, "oa") + "\t" + get(stats, "da") + "\t" + get(stats, "critDamage")
+
     alert(output_text);
-    alert(get(output, "oa") + "\t" + get(output, "da") + "\t" + get(output, "critDamage"));
 }
+
 setTimeout(() => get_attributes(), 1000);
