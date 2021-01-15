@@ -32,16 +32,16 @@ function check_less_than_three(value) {
     }
 }
 
-function getChildElementsByTag(node, tag_name){
+function getChildElementsByTag(node, tag_name) {
     let children = node.children;
     let elements = []
-    for (let i=0;i<children.length;i++){
+    for (let i = 0; i < children.length; i++) {
         let child = children[i];
-        if (child.children.length> 0){
+        if (child.children.length > 0) {
             elements = elements.concat(getChildElementsByTag(child, tag_name))
         }
     }
-    if (node.tagName === tag_name){
+    if (node.tagName === tag_name) {
         elements.push(node);
     }
     return elements
@@ -59,14 +59,15 @@ function getElementsByTag(tag_name) {
     return elements;
 }
 
+function parse_value(value) {
+    let parsed_value;
+    parsed_value = value.replace("+", "");
+    parsed_value = parsed_value.replace("%", "");
+    parsed_value = parseFloat(parsed_value);
+    return parsed_value;
+}
+
 function get_attributes() {
-    function parse_value(value) {
-        let parsed_value;
-        parsed_value = value.replace("+", "");
-        parsed_value = parsed_value.replace("%", "");
-        parsed_value = parseFloat(parsed_value);
-        return parsed_value;
-    }
 
     function get_stats(divs, stats) {
         for (let i = 0; i < divs.length; i++) {
@@ -94,12 +95,40 @@ function get_attributes() {
         }
     }
 
+    function get_armour_abs(divs) {
+        let armor_abs = 70;
+        let armor_div;
+        for (let i = 0; i < divs.length; i++) {
+            let div = divs[i];
+            if (div.style === "left: 678px; top: 206px; opacity: 1; display: none;") {
+                armor_div = div;
+                armor_div.style = "left: 678px; top: 206px; opacity: 1; display: flex;"
+            }
+        }
+        for (let i = 0; i < divs.length; i++) {
+            let div = divs[i];
+            if (div.classList.contains("stat-armor-column")) {
+                let span = div.firstChild;
+                let value = parse_value(span.innerHTML)
+                if (!isNaN(value)) {
+                    if (value > armor_abs) {
+                        armor_abs = value
+                    }
+                }
+            }
+        }
+        return armor_abs;
+    }
+
     let stats = [];
     let divs = getElementsByTag("div");
+
     get_stats(divs, stats);
 
-
     let derived_stats = [];
+
+    upsert(derived_stats, "armor_abs", get_armour_abs(divs))
+
     let max_res = 0;
     let min_res = 100;
     let max_damage_modifier = 0;
@@ -137,15 +166,15 @@ function get_attributes() {
     let output_text = get(derived_stats, "max_damage_modifier") + "\t" +
         get(stats, "health") + "\t" +
         get(stats, "healthRegen") + "\t" +
-        get(stats, "ar") + "\t";
-
-    output_text += 70 + "\t" +
+        get(stats, "ar") + "\t" +
+        get(derived_stats, "armor_abs") + "\t" +
         check_less_than_three(get(stats, "blockChance")) + "\t" +
         check_less_than_three(get(stats, "blockRecovery")) + "\t" +
         check_less_than_three(get(stats, "dodgeChance")) + "\t" +
-        check_less_than_three(get(stats, "deflectChance")) + "\t";
-
-    output_text += get(stats, "oa") + "\t" + get(stats, "da") + "\t" + get(stats, "critDamage")
+        check_less_than_three(get(stats, "deflectChance")) + "\t" +
+        get(stats, "oa") + "\t" +
+        get(stats, "da") + "\t" +
+        get(stats, "critDamage");
 
     alert(output_text);
 }
