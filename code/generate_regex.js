@@ -20,19 +20,39 @@ function get_skills_message(skills, bonus_to_skills_type) {
     let output = " to (" + skills + ")" + default_return_char + default_any_char;
     if (bonus_to_skills_type === "only_modifiers") {
         output = "[A-Za-z]" + output;
-    } else if (bonus_to_skills_type === "only_raw_values"){
-        output = "\\d"  + output;
+    } else if (bonus_to_skills_type === "only_raw_values") {
+        output = "\\d" + output;
     }
     return output;
 }
 
-function get_damage_message(damage_types, damage_include_type) {
-    let message = "(" + damage_types + ") damage" + default_return_char + default_any_char;
-    if (damage_include_type === "only_percent_values") {
-        message = "% " + message;
-    } else if (damage_include_type === "only_raw_values") {
-        message = "\\d " + message;
+function get_damage_message(damage_types, damage_include_type, damage_type_operator) {
+    damage_types.sort((a, b) => {
+        return a.rank - b.rank;
+    });
+    let joiner = default_any_char;
+    if (damage_type_operator === "or"){
+        joiner = "|"
     }
+    let include = "";
+    if (damage_include_type === "only_percent_values") {
+        include = "% ";
+    } else if (damage_include_type === "only_raw_values") {
+        include = "\\d ";
+    }
+    let messages = [];
+    for (let i = 0; i < damage_types.length; i++) {
+        let damage_type = damage_types[i];
+        let add_damage = "";
+        if (damage_type.include_damage === true){
+            add_damage = " damage"
+        }
+        messages.push(include + damage_type.name + add_damage + default_return_char)
+    }
+    let message = "(";
+    message += messages.join(joiner)
+    message += ")" + default_any_char;
+
     return message;
 }
 
@@ -158,24 +178,46 @@ function add_message(regex_div, message) {
     regex_div.appendChild(div);
 }
 
-function add_elemental_damage_type(possible_damage_types, damage_type) {
+function add_elemental_damage_type(damage_types) {
     let add_elemental = false;
     let elemental_damage_types = ["Fire", "Cold", "Lightning"];
 
     for (let i = 0; i < elemental_damage_types.length; i++) {
-        if (elemental_damage_types[i] === damage_type) {
-            add_elemental = true;
+        for (let j = 0; j < damage_types.length; j++) {
+            if (elemental_damage_types[i] === damage_types[j].name) {
+                add_elemental = true;
+            }
+            if ("Elemental" === damage_types[j].name) {
+                return
+            }
         }
     }
 
     if (add_elemental) {
-        possible_damage_types.push("Elemental");
+        damage_types.push({
+            "name": "Elemental",
+            "rank": 9,
+            "type": "direct",
+            "resistance": "Elemental",
+            "include_damage": true
+        });
     }
 }
 
 function generate_regex() {
+    let damage_types = []
+    let include_all_damage = document.getElementById("include_all_damage").value;
+    if (include_all_damage === "yes") {
+        let all_type = {"name": "to All", "rank": -1, "type": "direct", "resistance": "", "include_damage": true}
+        damage_types.push(all_type);
+    }
+    for (let i = 0; i < all_damage_types.length; i++) {
+        let skill = all_damage_types[i];
+        if (document.getElementById(skill.name).checked === true) {
+            damage_types.push(skill);
+        }
+    }
     let source_type = document.getElementById("source_type").value;
-    let damage_type = document.getElementById("damage_type").value;
     let checked_skills = get_checked_skills();
     let classes = [
         document.getElementById("class_1").value,
@@ -186,25 +228,17 @@ function generate_regex() {
     let level_message = "";
     if (level_selection === "84+") {
         level_message = level_84_or_higher;
-    } else if (level_selection === "low_levels"){
+    } else if (level_selection === "low_levels") {
         level_message = low_levels;
     }
 
     let damage_include_type = document.getElementById("damage_include_type").value;
     let bonus_to_skills_type = document.getElementById("bonus_to_skills_type").value;
-
-    let possible_damage_types = [];
-    let include_all_damage = document.getElementById("include_all_damage").value;
-    if (include_all_damage === "yes") {
-        possible_damage_types.push("to All");
-    }
-    if (damage_type !== "") {
-        possible_damage_types.push(damage_type);
-    }
+    let damage_type_operator = document.getElementById("damage_type_operator").value;
 
     let include_elemental_damage = document.getElementById("include_elemental_damage").value;
     if (include_elemental_damage === "yes") {
-        add_elemental_damage_type(possible_damage_types, damage_type);
+        add_elemental_damage_type(damage_types);
     }
 
     if (classes[0] !== "") {
@@ -216,12 +250,11 @@ function generate_regex() {
     checked_skills.push("all skills");
 
     let formatted_skills = checked_skills.join("|");
-    let formatted_damage_types = possible_damage_types.join("|");
 
     let output = []
 
     let skills_message = get_skills_message(formatted_skills, bonus_to_skills_type);
-    let damage_message = get_damage_message(formatted_damage_types, damage_include_type);
+    let damage_message = get_damage_message(damage_types, damage_include_type, damage_type_operator);
 
     if (source_type === "Player") {
         add_player_messaging(output, level_message, skills_message, damage_message);

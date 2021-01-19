@@ -10,7 +10,6 @@ function setup_auto_regex_generation(){
     let obj_ids = [
         {"id": "class_1", "type": "change"},
         {"id": "class_2", "type": "change"},
-        {"id": "damage_type", "type": "change"},
         {"id": "level_selection", "type": "change"},
         {"id": "damage_include_type", "type": "change"},
         {"id": "source_type", "type": "change"},
@@ -18,6 +17,7 @@ function setup_auto_regex_generation(){
         {"id": "bonus_to_skills_type", "type": "change"},
         {"id": "include_all_damage", "type": "change"},
         {"id": "include_elemental_damage", "type": "change"},
+        {"id": "damage_type_operator", "type": "change"},
     ];
     obj_ids.forEach(config => {
         if (auto_generate_regex.checked   === true){
@@ -34,9 +34,43 @@ function setup_class_select(class_select_id){
     all_skills.forEach(obj => add_to_select(class_select, obj.class_name));
 }
 
+function add_damage_type_to_div(names_div, checkboxes_div, name){
+    let name_div = document.createElement("div");
+    // name_div.classList.add("regex_messages");
+    name_div.classList.add("damage_sources");
+    let name_text = document.createTextNode(name);
+    name_text.addEventListener("click", function (){
+        generate_regex();
+    });
+    name_div.appendChild(name_text);
+    names_div.appendChild(name_div)
+
+    let checkbox_div = document.createElement("div");
+    checkbox_div.classList.add("damage_sources");
+    let checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = name;
+    checkbox.addEventListener("change", function (){
+        generate_regex();
+    });
+    checkbox_div.appendChild(checkbox)
+    checkboxes_div.appendChild(checkbox_div);
+}
+
+function add_damage_type(damage_type){
+    if (damage_type.type === "direct"){
+        let names_div = document.getElementById("direct_damage_source_names");
+        let checkboxes_div = document.getElementById("direct_damage_source_checkboxes");
+        add_damage_type_to_div(names_div, checkboxes_div, damage_type.name);
+    } else {
+        let names_div = document.getElementById("dot_damage_source_names");
+        let checkboxes_div = document.getElementById("dot_damage_source_checkboxes");
+        add_damage_type_to_div(names_div, checkboxes_div, damage_type.name);
+    }
+}
+
 function fill_values() {
-    let source_damage_type = document.getElementById("damage_type");
-    all_damage_types.forEach(damage_type => add_to_select(source_damage_type, damage_type.name));
+    all_damage_types.forEach(damage_type => add_damage_type(damage_type));
 
     setup_class_select("class_1");
     setup_class_select("class_2");

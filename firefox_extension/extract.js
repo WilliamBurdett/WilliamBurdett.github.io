@@ -97,14 +97,6 @@ function get_attributes() {
 
     function get_armour_abs(divs) {
         let armor_abs = 70;
-        let armor_div;
-        for (let i = 0; i < divs.length; i++) {
-            let div = divs[i];
-            if (div.style === "left: 678px; top: 206px; opacity: 1; display: none;") {
-                armor_div = div;
-                armor_div.style = "left: 678px; top: 206px; opacity: 1; display: flex;"
-            }
-        }
         for (let i = 0; i < divs.length; i++) {
             let div = divs[i];
             if (div.classList.contains("stat-armor-column")) {
@@ -179,4 +171,15 @@ function get_attributes() {
     alert(output_text);
 }
 
-setTimeout(() => get_attributes(), 1000);
+function trigger_event(){
+    let divs = getElementsByTag("div");
+    for (let i = 0; i < divs.length; i++) {
+        let div = divs[i];
+        const mouseoverEvent = new Event('mouseover');
+        div.dispatchEvent(mouseoverEvent);
+    }
+}
+
+// setTimeout(() => trigger_event(), 1000);
+
+setTimeout(() => get_attributes(), 2000);

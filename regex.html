@@ -34,6 +34,10 @@
             text-align: right;
         }
 
+        .damage_sources {
+            height: 20px;
+        }
+
         footer {
             display: flex;
             height: 60px;
@@ -56,10 +60,15 @@
     </div>
     <div class="section">
         <div class="inline">
-            <h3>Output Damage Type</h3>
-            <select id="damage_type" name="dropdown" tag="damage_type">
-                <option value="">No Damage Type</option>
-            </select>
+            <h3>Output Damage Types</h3>
+            <div class="inline">
+                <div class="inline" id="direct_damage_source_names"></div>
+                <div class="inline" id="direct_damage_source_checkboxes"></div>
+            </div>
+            <div class="inline">
+                <div class="inline" id="dot_damage_source_names"></div>
+                <div class="inline" id="dot_damage_source_checkboxes"></div>
+            </div>
         </div>
     </div>
     <div>
@@ -129,6 +138,15 @@
                         <option value="both">Both</option>
                         <option value="only_percent_values">Only Percent Values (55% Physical Damage)</option>
                         <option value="only_raw_values">Only Raw Values (10-15 Physical Damage)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="section">
+                <div class="inline regex_messages">Damage type:</div>
+                <div class="inline">
+                    <select id="damage_type_operator">
+                        <option value="and">Item has all damage types</option>
+                        <option value="or">Item has any damage type</option>
                     </select>
                 </div>
             </div>
