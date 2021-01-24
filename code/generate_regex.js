@@ -26,7 +26,7 @@ function get_skills_message(skills, bonus_to_skills_type) {
     return output;
 }
 
-function get_damage_message(damage_types, damage_include_type, damage_type_operator) {
+function get_damage_message(damage_types, include_all_damage, include_elemental_damage, damage_include_type, damage_type_operator) {
     damage_types.sort((a, b) => {
         return a.rank - b.rank;
     });
@@ -40,20 +40,33 @@ function get_damage_message(damage_types, damage_include_type, damage_type_opera
     } else if (damage_include_type === "only_raw_values") {
         include = "\\d ";
     }
-    let messages = [];
+    let base_messages = [];
     for (let i = 0; i < damage_types.length; i++) {
         let damage_type = damage_types[i];
         let add_damage = "";
         if (damage_type.include_damage === true){
             add_damage = " damage"
         }
-        messages.push(include + damage_type.name + add_damage + default_return_char)
+        base_messages.push(include + damage_type.name + add_damage + default_return_char)
     }
-    let message = "(";
-    message += messages.join(joiner)
-    message += ")" + default_any_char;
+    let base_message = "(";
+    base_message += base_messages.join(joiner)
+    base_message += ")";
 
-    return message;
+    let need_additional_param = false;
+    if (include_all_damage === "Yes"){
+        need_additional_param = true;
+        base_message = "(to All damage)|" + base_message;
+    }
+    if (include_elemental_damage === "Yes"){
+        need_additional_param = true;
+        base_message += "|(" + include + "elemental damage)";
+    }
+    if (need_additional_param){
+        base_message = "(" + base_message + ")"
+    }
+    base_message += default_any_char
+    return base_message;
 }
 
 default_return_char = "\\n";
@@ -179,37 +192,28 @@ function add_message(regex_div, message) {
 }
 
 function add_elemental_damage_type(damage_types) {
-    let add_elemental = false;
     let elemental_damage_types = ["Fire", "Cold", "Lightning"];
-
     for (let i = 0; i < elemental_damage_types.length; i++) {
         for (let j = 0; j < damage_types.length; j++) {
             if (elemental_damage_types[i] === damage_types[j].name) {
-                add_elemental = true;
+                return true;
             }
             if ("Elemental" === damage_types[j].name) {
-                return
+                return false;
             }
         }
     }
 
-    if (add_elemental) {
-        damage_types.push({
-            "name": "Elemental",
-            "rank": 9,
-            "type": "direct",
-            "resistance": "Elemental",
-            "include_damage": true
-        });
-    }
+    return false;
 }
 
 function generate_regex() {
+    let additional_damage_types = []
     let damage_types = []
     let include_all_damage = document.getElementById("include_all_damage").value;
     if (include_all_damage === "yes") {
-        let all_type = {"name": "to All", "rank": -1, "type": "direct", "resistance": "", "include_damage": true}
-        damage_types.push(all_type);
+        let all_type = {"name": "to All", "rank": -1, "type": "direct", "resistance": "", "include_damage": true};
+        additional_damage_types.push(all_type);
     }
     for (let i = 0; i < all_damage_types.length; i++) {
         let skill = all_damage_types[i];
@@ -238,7 +242,7 @@ function generate_regex() {
 
     let include_elemental_damage = document.getElementById("include_elemental_damage").value;
     if (include_elemental_damage === "yes") {
-        add_elemental_damage_type(damage_types);
+        add_elemental_damage_type(damage_types, additional_damage_types);
     }
 
     if (classes[0] !== "") {
@@ -254,7 +258,7 @@ function generate_regex() {
     let output = []
 
     let skills_message = get_skills_message(formatted_skills, bonus_to_skills_type);
-    let damage_message = get_damage_message(damage_types, damage_include_type, damage_type_operator);
+    let damage_message = get_damage_message(damage_types, include_all_damage, include_elemental_damage, damage_include_type, damage_type_operator);
 
     if (source_type === "Player") {
         add_player_messaging(output, level_message, skills_message, damage_message);
