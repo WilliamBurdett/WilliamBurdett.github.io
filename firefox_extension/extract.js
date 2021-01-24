@@ -97,13 +97,26 @@ function get_attributes() {
 
     function get_armour_abs(divs) {
         let armor_abs = 70;
+        let armor_div;
+        for (let i = 0; i < divs.length; i++) {
+            let div = divs[i];
+            let stat = div.getAttribute("stat");
+            if (stat !== null) {
+                if (stat === "ar"){
+                    div.addEventListener("mouseover", (e) => {console.log(e)});
+                }
+            }
+        }
         for (let i = 0; i < divs.length; i++) {
             let div = divs[i];
             if (div.classList.contains("stat-armor-column")) {
                 let span = div.firstChild;
-                let value = parse_value(span.innerHTML)
-                if (!isNaN(value)) {
-                    if (value > armor_abs) {
+                let value = parse_value(span.innerHTML);
+                console.log(value);
+                console.log(isNaN(value));
+                if (!isNaN(value) && span.innerHTML.includes("%")) {
+                    console.log(value);
+                    if (value > armor_abs && value <= 100) {
                         armor_abs = value
                     }
                 }
