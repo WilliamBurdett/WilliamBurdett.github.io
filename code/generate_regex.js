@@ -54,11 +54,11 @@ function get_damage_message(damage_types, include_all_damage, include_elemental_
     base_message += ")";
 
     let need_additional_param = false;
-    if (include_all_damage === "Yes"){
+    if (include_all_damage === "yes"){
         need_additional_param = true;
         base_message = "(to All damage)|" + base_message;
     }
-    if (include_elemental_damage === "Yes"){
+    if (include_elemental_damage === "yes"){
         need_additional_param = true;
         base_message += "|(" + include + "elemental damage)";
     }
