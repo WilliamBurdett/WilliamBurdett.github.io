@@ -48,9 +48,9 @@ function get_damage_message(damage_types, include_all_damage, include_elemental_
             add_damage = " damage"
         }
         if (damage_type.type === "direct") {
-            messages.push(include + damage_type.name + add_damage + default_return_char)
+            base_messages.push(include + damage_type.name + add_damage + default_return_char)
         } else {
-            messages.push(include + damage_type.name + add_damage)
+            base_messages.push(include + damage_type.name + add_damage)
         }
     }
     let base_message = "(";
