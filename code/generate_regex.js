@@ -62,7 +62,7 @@ function get_damage_message(damage_types, include_all_damage, include_elemental_
         need_additional_param = true;
         base_message = "(to All damage)|" + base_message;
     }
-    if (include_elemental_damage === "yes"){
+    if (include_elemental_damage === "yes" && add_elemental_damage_type(damage_types)) {
         need_additional_param = true;
         base_message += "|(" + include + "elemental damage)";
     }
