@@ -169,8 +169,10 @@ function fill_skills(index){
         })
         for (let i=0;i<all_types.length;i++){
             let type_skills = get_skills_by_type(class_skills, all_types[i].raw_type);
-            add_name_row(table, max_dependencies, all_types[i].name);
-            type_skills.forEach(skill => create_div_for_skill(table, skill, max_dependencies));
+            if (type_skills.length > 0){
+                add_name_row(table, max_dependencies, all_types[i].name);
+                type_skills.forEach(skill => create_div_for_skill(table, skill, max_dependencies));
+            }
         }
     }
 }

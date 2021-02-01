@@ -1000,6 +1000,7 @@ const all_types = [
     {"raw_type": "WPS", "name": "WPS"},
     {"raw_type": "pet", "name": "Pet Damage"},
     {"raw_type": "passive-damage", "name": "Damage (Passive)"},
+    {"raw_type": "passive", "name": "Passive"},
     {"raw_type": "buff-active", "name": "Buff (Active)"},
     {"raw_type": "buff-passive", "name": "Buff (Passive)"},
     {"raw_type": "exclusive", "name": ""},
