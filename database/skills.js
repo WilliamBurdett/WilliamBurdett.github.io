@@ -56,7 +56,9 @@ const all_skills = [
             },
             {
                 "name": "Markovian's Advantage",
-                "skills": [],
+                "skills": [
+                    {"name": "Zolhan's Technique","default": false}
+                ],
                 "default": false
             },
             {
@@ -83,11 +85,6 @@ const all_skills = [
                 "name": "Veterancy",
                 "skills": [],
                 "default": true
-            },
-            {
-                "name": "Zolhan's Technique",
-                "skills": [],
-                "default": false
             },
             {
                 "name": "Counter Strike",
@@ -304,6 +301,11 @@ const all_skills = [
                 "default": false
             },
             {
+                "name": "Blade Spirit",
+                "skills": [],
+                "default": false
+            },
+            {
                 "name": "Blade Trap",
                 "skills": [
                     {"name": "Devouring Blades", "default": false}
@@ -373,11 +375,6 @@ const all_skills = [
                     {"name": "Night's Chill", "default": false}
                 ],
                 "default": true
-            },
-            {
-                "name": "Blade Spirit",
-                "skills": [],
-                "default": false
             }
         ]
     },
@@ -645,12 +642,10 @@ const all_skills = [
             },
             {
                 "name": "Bursting Round",
-                "skills": [],
-                "default": false
-            },
-            {
-                "name": "Chilling Rounds",
-                "skills": [],
+                "skills": [
+                    {"name": "Chilling Rounds", "default": false},
+                    {"name": "Storm Spread", "default": false}
+                ],
                 "default": false
             },
             {
@@ -660,11 +655,6 @@ const all_skills = [
             },
             {
                 "name": "Ranged Expertise",
-                "skills": [],
-                "default": false
-            },
-            {
-                "name": "Storm Spread",
                 "skills": [],
                 "default": false
             },

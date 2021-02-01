@@ -171,6 +171,7 @@ function get_attributes() {
         get(stats, "resPhysical") + "\t" +
         get(stats, "weaponDamage") + "\t" +
         get(stats, "aps") + "\t" +
+        get(stats, "attackSpeed") + "\t" +
         get(stats, "castSpeed") + "\t" +
         get(stats, "cooldownReduction");
 
