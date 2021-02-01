@@ -140,7 +140,7 @@ function create_div_for_skill(skill_table, skill, max_dependencies) {
     skill_table.appendChild(skill_row);
 }
 
-function add_name_skill(max_dependencies, type_name) {
+function add_name_row(table, max_dependencies, type_name) {
     let name_row = document.createElement("tr");
     let name_cell = document.createElement("td");
     name_cell.style.fontSize = "16px";
@@ -149,6 +149,7 @@ function add_name_skill(max_dependencies, type_name) {
     for (let j = 1; j < max_dependencies; j++) {
         add_empty_column(name_row);
     }
+    table.appendChild(name_row);
 }
 
 function fill_skills(index){
@@ -168,7 +169,7 @@ function fill_skills(index){
         })
         for (let i=0;i<all_types.length;i++){
             let type_skills = get_skills_by_type(class_skills, all_types[i].raw_type);
-            add_name_skill(max_dependencies, all_types[i].raw_type);
+            add_name_row(table, max_dependencies, all_types[i].name);
             type_skills.forEach(skill => create_div_for_skill(table, skill, max_dependencies));
         }
     }
