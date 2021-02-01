@@ -149,7 +149,6 @@ function add_name_skill(max_dependencies, type_name) {
     for (let j = 1; j < max_dependencies; j++) {
         add_empty_column(name_row);
     }
-    return i;
 }
 
 function fill_skills(index){
