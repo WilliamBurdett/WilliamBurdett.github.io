@@ -145,7 +145,7 @@ function add_name_row(table, max_dependencies, type_name) {
     let name_cell = document.createElement("td");
     let name_text = document.createElement("h4");
     name_text.appendChild(document.createTextNode(type_name));
-    name_cell.appendChild(name_cell)
+    name_cell.appendChild(name_text)
     name_row.appendChild(name_cell);
     for (let j = 1; j < max_dependencies; j++) {
         add_empty_column(name_row);
