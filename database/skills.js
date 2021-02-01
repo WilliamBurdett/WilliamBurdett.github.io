@@ -641,21 +641,17 @@ const all_skills = [
                 "default": false
             },
             {
-                "name": "Bursting Round",
-                "skills": [
-                    {"name": "Chilling Rounds", "default": false},
-                    {"name": "Storm Spread", "default": false}
-                ],
-                "default": false
-            },
-            {
                 "name": "Deadly Aim",
                 "skills": [],
                 "default": true
             },
             {
                 "name": "Ranged Expertise",
-                "skills": [],
+                "skills": [
+                    {"name": "Bursting Round","default": false},
+                    {"name": "Chilling Rounds", "default": false},
+                    {"name": "Storm Spread", "default": false}
+                ],
                 "default": false
             },
             {
