@@ -130,14 +130,26 @@ function add_empty_column(skill_row) {
 
 function create_div_for_skill(skill_table, skill, max_dependencies) {
     let skill_row = document.createElement("tr");
-    let curent_count = 1;
+    let current_count = 1;
     add_skill_to_available_list(skill_row, skill);
-    curent_count += skill.skills.length;
+    current_count += skill.skills.length;
     skill.skills.forEach(dependent_skill => add_skill_to_available_list(skill_row, dependent_skill));
-    for (let i = curent_count; i <= max_dependencies; i++) {
+    for (let i = current_count; i <= max_dependencies; i++) {
         add_empty_column(skill_row)
     }
     skill_table.appendChild(skill_row);
+}
+
+function add_name_skill(max_dependencies, type_name) {
+    let name_row = document.createElement("tr");
+    let name_cell = document.createElement("td");
+    name_cell.style.fontSize = "16px";
+    name_cell.appendChild(document.createTextNode(type_name));
+    name_row.appendChild(name_cell);
+    for (let j = 1; j < max_dependencies; j++) {
+        add_empty_column(name_row);
+    }
+    return i;
 }
 
 function fill_skills(index){
@@ -148,13 +160,17 @@ function fill_skills(index){
         let table = document.createElement("table");
         table.style.fontSize = "12px";
         skills_class_div.appendChild(table);
-        let skills = get_skills_for_class(class_name);
+        let class_skills = get_skills_for_class(class_name);
         let max_dependencies = 1;
-        skills.forEach(skill => function(){
+        class_skills.forEach(skill => function(){
             if (skill.skills.length > max_dependencies) {
                 max_dependencies = skill.skills.length;
             }
         })
-        skills.forEach(skill => create_div_for_skill(table, skill, max_dependencies));
+        for (let i=0;i<all_types.length;i++){
+            let type_skills = get_skills_by_type(class_skills, all_types[i].raw_type);
+            add_name_skill(max_dependencies, all_types[i].raw_type);
+            type_skills.forEach(skill => create_div_for_skill(table, skill, max_dependencies));
+        }
     }
 }
