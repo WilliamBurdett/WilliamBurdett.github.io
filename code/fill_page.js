@@ -140,16 +140,14 @@ function create_div_for_skill(skill_table, skill, max_dependencies) {
 
 function add_name_row(table, max_dependencies, type_name) {
     let name_row = document.createElement("tr");
-    name_row.style.backgroundColor = "blue";
+    name_row.style.fontSize = "16px";
     add_empty_column(name_row);
     let name_cell = document.createElement("td");
-    let name_text = document.createElement("h4");
-    name_text.appendChild(document.createTextNode(type_name));
-    name_cell.appendChild(name_text)
+    name_cell.appendChild(document.createTextNode(type_name))
     name_row.appendChild(name_cell);
     for (let j = 2; j < max_dependencies*2; j++) {
         add_empty_column(name_row);
-    }
+    }``
     table.appendChild(name_row);
 }
 
