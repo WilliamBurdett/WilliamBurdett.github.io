@@ -143,8 +143,9 @@ function create_div_for_skill(skill_table, skill, max_dependencies) {
 function add_name_row(table, max_dependencies, type_name) {
     let name_row = document.createElement("tr");
     let name_cell = document.createElement("td");
-    name_cell.style.fontSize = "16px";
-    name_cell.appendChild(document.createTextNode(type_name));
+    let name_text = document.createElement("h4");
+    name_text.appendChild(document.createTextNode(type_name));
+    name_cell.appendChild(name_cell)
     name_row.appendChild(name_cell);
     for (let j = 1; j < max_dependencies; j++) {
         add_empty_column(name_row);

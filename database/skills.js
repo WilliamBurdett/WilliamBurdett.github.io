@@ -1003,7 +1003,7 @@ const all_types = [
     {"raw_type": "passive", "name": "Passive"},
     {"raw_type": "buff-active", "name": "Buff (Active)"},
     {"raw_type": "buff-passive", "name": "Buff (Passive)"},
-    {"raw_type": "exclusive", "name": ""},
+    {"raw_type": "exclusive", "name": "Exclusive"},
 ];
 
 
