@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "ExtractCharacterData",
-  "version": "1.48",
+  "version": "1.51",
 
   "description": "Extracts data from grimtools.com/calc/",
 

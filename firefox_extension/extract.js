@@ -169,7 +169,7 @@ function get_attributes() {
         get(stats, "da") + "\t" +
         get(stats, "critDamage") + "\t" +
         get(stats, "resPhysical") + "\t" +
-        get(stats, "weaponDamage") + "\t" +
+        get(stats, "damagePerAttack") + "\t" +
         get(stats, "aps") + "\t" +
         get(stats, "attackSpeed") + "\t" +
         get(stats, "castSpeed") + "\t" +
@@ -195,4 +195,4 @@ function do_all(){
     trigger_event("mouseout")
 }
 
-setTimeout(() => do_all(), 2000);
+setTimeout(() => do_all(), 1000);
