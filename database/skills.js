@@ -571,7 +571,7 @@ const all_skills = [
                     {"name": "Upheaval", "default": false}
                 ],
                 "default": false,
-                "type": "WSP"
+                "type": "WPS"
             },
             {
                 "name": "Devouring Swarm",
