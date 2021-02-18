@@ -168,6 +168,10 @@ function add_retaliation_messaging(
         "message": build_message(damage_message + level_message)
     });
     output.push({
+        "message_type": "skills and any retaliation",
+        "message": build_message(insert + skills_message + level_message)
+    });
+    output.push({
         "message_type": "skills",
         "message": build_message(skills_message + level_message)
     });
