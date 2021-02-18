@@ -1,0 +1,26 @@
+{
+
+  "manifest_version": 2,
+  "name": "ExtractCharacterData",
+  "version": "1.48",
+
+  "description": "Extracts data from grimtools.com/calc/",
+
+  "icons": {
+    "48": "icons/border-48.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.grimtools.com/calc/*"],
+      "js": ["extract.js"]
+    }
+  ],
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "william.burdett1@gmail.com"
+    }
+  }
+
+}
