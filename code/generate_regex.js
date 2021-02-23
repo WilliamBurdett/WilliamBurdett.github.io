@@ -40,7 +40,7 @@ function get_damage_message(
     if (damage_type_operator === "or") {
         joiner = "|"
     }
-    let include = "";
+    let include = " ";
     if (damage_include_type === "only_percent_values") {
         include = "% ";
     } else if (damage_include_type === "only_raw_values") {
