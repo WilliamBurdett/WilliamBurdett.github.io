@@ -116,7 +116,7 @@ function get_retaliation_damage_message(
 default_return_char = "\\n";
 default_any_char = "(.|" + default_return_char + ")*";
 level_84_or_higher = default_any_char + "l: (84|9\\d)";
-low_levels = default_any_char + "l:( | 1| 2| 3)\\d" + default_return_char;
+low_levels = default_any_char + "l:(( | 1| 2| 3)\\d| 40)" + default_return_char;
 
 function add_player_messaging(output, level_message, skills_message, damage_message) {
     output.push({
@@ -350,7 +350,7 @@ function generate_regex() {
         );
     }
 
-    add_both_skills_message(output, classes, level_message)
+    add_both_skills_message(output, classes, level_message);
 
     let regex_div = document.getElementById("regex_output");
     regex_div.innerHTML = "";
