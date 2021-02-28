@@ -438,7 +438,7 @@ const all_skills = [
         ]
     },
     {
-        "class_name": "Aranist",
+        "class_name": "Arcanist",
         "class_skills": [
             {
                 "name": "Albrecht's Aether Ray",
