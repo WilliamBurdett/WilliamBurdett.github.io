@@ -97,9 +97,9 @@ function get_retaliation_damage_message(
         }
         let add_damage = "";
         if (damage_type.retaliation_include_damage === true){
-            add_damage = " damage"
+            add_damage = " damage";
         }
-        base_messages.push(damage_type.name + add_damage + add_retal + default_return_char)
+        base_messages.push(damage_type.name + add_damage + add_retal + default_return_char);
     }
     let base_message = "(";
     base_message += base_messages.join(joiner)
