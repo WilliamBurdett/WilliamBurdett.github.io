@@ -162,14 +162,15 @@ function add_pet_messaging(output, level_message, skills_message, damage_message
 function add_retaliation_messaging(
     output, level_message, skills_message, damage_message
 ) {
-    let insert = "retaliation" + default_any_char;
+    const insert = "retaliation" + default_any_char;
+    const all_retaliation = "((" + damage_message + ")|(all retaliation))"
     output.push({
         "message_type": "skills and damage",
-        "message": build_message(damage_message + skills_message + level_message)
+        "message": build_message(all_retaliation + skills_message + level_message)
     });
     output.push({
         "message_type": "damage",
-        "message": build_message(damage_message + level_message)
+        "message": build_message(all_retaliation + level_message)
     });
     output.push({
         "message_type": "skills and any retaliation",
