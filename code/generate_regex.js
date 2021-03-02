@@ -105,14 +105,10 @@ function get_retaliation_damage_message(
     base_message += base_messages.join(joiner)
     base_message += ")";
 
-    let need_additional_param = false;
     if (include_elemental_damage === "yes" && add_elemental_damage_type(damage_types)) {
-        need_additional_param = true;
         base_message += "|(elemental damage retaliation" + default_return_char + ")";
     }
-    if (need_additional_param) {
-        base_message = "(" + base_message + ")"
-    }
+    base_message = "((" + base_message + ")|(all retaliation))";
     base_message += default_any_char
     return base_message;
 }
@@ -163,14 +159,13 @@ function add_retaliation_messaging(
     output, level_message, skills_message, damage_message
 ) {
     const insert = "retaliation" + default_any_char;
-    const all_retaliation = "((" + damage_message + ")|(all retaliation))"
     output.push({
         "message_type": "skills and damage",
-        "message": build_message(all_retaliation + skills_message + level_message)
+        "message": build_message(damage_message + skills_message + level_message)
     });
     output.push({
         "message_type": "damage",
-        "message": build_message(all_retaliation + level_message)
+        "message": build_message(damage_message + level_message)
     });
     output.push({
         "message_type": "skills and any retaliation",
