@@ -91,11 +91,15 @@ function get_retaliation_damage_message(
     let base_messages = [];
     for (let i = 0; i < damage_types.length; i++) {
         let damage_type = damage_types[i];
-        let add_damage = "";
+        let add_retal = "";
         if (damage_type.include_damage === true) {
-            add_damage = " retaliation"
+            add_retal = " retaliation"
         }
-        base_messages.push(damage_type.name + add_damage + default_return_char)
+        let add_damage = "";
+        if (damage_type.retaliation_include_damage === true){
+            add_damage = " damage"
+        }
+        base_messages.push(damage_type.name + add_damage + add_retal + default_return_char)
     }
     let base_message = "(";
     base_message += base_messages.join(joiner)
@@ -104,7 +108,7 @@ function get_retaliation_damage_message(
     let need_additional_param = false;
     if (include_elemental_damage === "yes" && add_elemental_damage_type(damage_types)) {
         need_additional_param = true;
-        base_message += "|(elemental retaliation" + default_return_char + ")";
+        base_message += "|(elemental damage retaliation" + default_return_char + ")";
     }
     if (need_additional_param) {
         base_message = "(" + base_message + ")"
