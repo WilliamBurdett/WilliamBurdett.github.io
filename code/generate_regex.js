@@ -165,7 +165,7 @@ function add_retaliation_messaging(
     let insert = "retaliation" + default_any_char;
     output.push({
         "message_type": "skills and damage",
-        "message": build_message(skills_message + damage_message + level_message)
+        "message": build_message(damage_message + skills_message + level_message)
     });
     output.push({
         "message_type": "damage",
@@ -173,7 +173,7 @@ function add_retaliation_messaging(
     });
     output.push({
         "message_type": "skills and any retaliation",
-        "message": build_message(insert + skills_message + level_message)
+        "message": build_message(skills_message + insert + level_message)
     });
     output.push({
         "message_type": "skills",
