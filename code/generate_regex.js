@@ -40,7 +40,7 @@ function get_damage_message(
     if (damage_type_operator === "or") {
         joiner = "|"
     }
-    let include = "";
+    let include = " ";
     if (damage_include_type === "only_percent_values") {
         include = "% ";
     } else if (damage_include_type === "only_raw_values") {
@@ -91,24 +91,24 @@ function get_retaliation_damage_message(
     let base_messages = [];
     for (let i = 0; i < damage_types.length; i++) {
         let damage_type = damage_types[i];
-        let add_damage = "";
+        let add_retal = "";
         if (damage_type.include_damage === true) {
-            add_damage = " retaliation"
+            add_retal = " retaliation"
         }
-        base_messages.push(damage_type.name + add_damage + default_return_char)
+        let add_damage = "";
+        if (damage_type.retaliation_include_damage === true){
+            add_damage = " damage";
+        }
+        base_messages.push(damage_type.name + add_damage + add_retal + default_return_char);
     }
     let base_message = "(";
     base_message += base_messages.join(joiner)
     base_message += ")";
 
-    let need_additional_param = false;
     if (include_elemental_damage === "yes" && add_elemental_damage_type(damage_types)) {
-        need_additional_param = true;
-        base_message += "|(elemental retaliation" + default_return_char + ")";
+        base_message += "|(elemental damage retaliation" + default_return_char + ")";
     }
-    if (need_additional_param) {
-        base_message = "(" + base_message + ")"
-    }
+    base_message = "((" + base_message + ")|(all retaliation))";
     base_message += default_any_char
     return base_message;
 }
@@ -116,7 +116,7 @@ function get_retaliation_damage_message(
 default_return_char = "\\n";
 default_any_char = "(.|" + default_return_char + ")*";
 level_84_or_higher = default_any_char + "l: (84|9\\d)";
-low_levels = default_any_char + "l:( | 1| 2| 3)\\d" + default_return_char;
+low_levels = default_any_char + "l:(( | 1| 2| 3)\\d| 40)" + default_return_char;
 
 function add_player_messaging(output, level_message, skills_message, damage_message) {
     output.push({
@@ -158,10 +158,10 @@ function add_pet_messaging(output, level_message, skills_message, damage_message
 function add_retaliation_messaging(
     output, level_message, skills_message, damage_message
 ) {
-    let insert = "retaliation" + default_any_char;
+    const insert = "retaliation" + default_any_char;
     output.push({
         "message_type": "skills and damage",
-        "message": build_message(skills_message + damage_message + level_message)
+        "message": build_message(damage_message + skills_message + level_message)
     });
     output.push({
         "message_type": "damage",
@@ -169,7 +169,7 @@ function add_retaliation_messaging(
     });
     output.push({
         "message_type": "skills and any retaliation",
-        "message": build_message(insert + skills_message + level_message)
+        "message": build_message(skills_message + insert + level_message)
     });
     output.push({
         "message_type": "skills",
@@ -350,7 +350,7 @@ function generate_regex() {
         );
     }
 
-    add_both_skills_message(output, classes, level_message)
+    add_both_skills_message(output, classes, level_message);
 
     let regex_div = document.getElementById("regex_output");
     regex_div.innerHTML = "";
