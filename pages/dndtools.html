@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>D&D Tools</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            flex-grow: 1;
+            overflow-y: scroll;
+        }
+
+        .section {
+            padding: 10px;
+        }
+
+        .section:nth-child(even) {
+            background-color: whitesmoke;
+        }
+
+        .section:nth-child(odd) {
+            background-color: lightgray;
+        }
+
+        .inline {
+            display: inline-block;
+        }
+
+        .regex_messages {
+            width: 200px;
+            text-align: right;
+        }
+
+        .damage_sources {
+            height: 20px;
+        }
+
+        footer {
+            display: flex;
+            height: 60px;
+            justify-content: space-between;
+            background-color: white;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="section">
+        <div>
+            <div class="regex_messages inline">Dice To Roll</div>
+            <div><input type="text" id="dice_to_roll" value="6"/></div>
+            <div class="regex_messages inline">Max Diff From Default</div>
+            <div><input type="text" id="target_window_size" value="5"/></div>
+            <div class="regex_messages inline">Dice Needed (6, 18)</div>
+            <div><input type="text" id="dice_needed" value="6,18"/></div>
+            <div class="regex_messages inline">Number Of Sets Generated</div>
+            <div><input type="text" id="num_generated" value="5"/></div>
+            <div class="regex_messages inline">Dice Per Group</div>
+            <div><input type="text" id="dice_per_group" value="4"/></div>
+        </div>
+        <div>
+            <button value="GenerateDice" onclick="generateDice()" >Generate Dice</button>
+        </div>
+        <div id="generatedDice"></div>
+    </div>
+</div>
+<script type="text/javascript" src="../code/generate_dice.js"></script>
+</body>
+</html>
