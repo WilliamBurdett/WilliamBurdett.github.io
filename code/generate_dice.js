@@ -74,7 +74,7 @@ function generateDice() {
             }
             total.push(sum(group));
         }
-        total.sort()
+        total.sort((a, b) => a - b);
         total = total.slice(0, 3).concat(total.slice(-3));
 
         let cont = false;
