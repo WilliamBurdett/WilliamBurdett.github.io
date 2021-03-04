@@ -102,7 +102,7 @@ function add_skill_to_available_list(skill_row, skill) {
     let name_column = document.createElement("td");
     let img = document.createElement("img");
     img.alt = skill.name;
-    img.src = "images/" + skill.name.replace(/ /g, "_") + ".png";
+    img.src = "../images/" + skill.name.replace(/ /g, "_") + ".png";
     img.addEventListener("click", function (){
         checkbox.checked = checkbox.checked !== true;
         generate_regex();
