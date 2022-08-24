@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="application/javascript">
+        function genStats() {
+            let parts = [];
+            let totals = [];
+            for (let i = 0; i < 4; i++) {
+                let rolls = [];
+                for (let j = 0; j < 4; j++) {
+                    rolls.push(Math.floor(Math.random() * 6) + 1);
+                }
+                let total = rolls.reduce((tot, current) => {
+                    return tot + current
+                }, 0);
+                totals.push(total)
+                let output = "Rolls: " + rolls.toString() + " Total: " + total + "\n";
+                parts.push(output)
+            }
+            let total = totals.reduce((tot, current) => {
+                return tot + current
+            }, 0);
+            let output = parts.toString() + "\n" + "Total: " + total + "\n" + "78-" + total + "=" + (78 - total);
+            const textbox = document.getElementById("output");
+            textbox.textContent = textbox.textContent + "\n\n" + output;
+        }
+    </script>
+</head>
+<body>
+
+<div>
+    <input type="button" value="Click to get stats!" onclick="genStats()">
+    <br/>
+    <textarea id="output" cols="50" rows="25"></textarea>
+</div>
+
+</body>
+</html>
