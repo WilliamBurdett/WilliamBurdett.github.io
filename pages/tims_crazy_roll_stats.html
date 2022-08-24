@@ -10,11 +10,15 @@
                 for (let j = 0; j < 4; j++) {
                     rolls.push(Math.floor(Math.random() * 6) + 1);
                 }
+                rolls.sort();
+                rolls.reverse();
+                let rollStr = rolls.toString();
+                rolls.pop();
                 let total = rolls.reduce((tot, current) => {
                     return tot + current
                 }, 0);
                 totals.push(total)
-                let output = "Rolls: " + rolls.toString() + " Total: " + total + "\n";
+                let output = "Rolls: " + rollStr + " Total: " + total + "\n";
                 parts.push(output)
             }
             let total = totals.reduce((tot, current) => {
