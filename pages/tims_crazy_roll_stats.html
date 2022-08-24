@@ -22,7 +22,7 @@
             }, 0);
             let output = parts.toString() + "\n" + "Total: " + total + "\n" + "78-" + total + "=" + (78 - total);
             const textbox = document.getElementById("output");
-            textbox.textContent = textbox.textContent + "\n\n" + output;
+            textbox.textContent = output + "\n\n" + textbox.textContent;
         }
     </script>
 </head>
